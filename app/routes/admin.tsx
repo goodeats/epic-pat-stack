@@ -7,41 +7,33 @@ import {
 	MainContent,
 } from '#app/components/layout/index.ts'
 import { PageSidebar } from '#app/components/templates/index.ts'
+import { requireAdminUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
 import { invariantResponse } from '#app/utils/misc.tsx'
 
-export async function loader({ params }: DataFunctionArgs) {
-	const owner = await prisma.user.findFirst({
+export async function loader({ request }: DataFunctionArgs) {
+	const userId = await requireAdminUserId(request)
+	const user = await prisma.user.findUnique({
+		where: { id: userId },
 		select: {
 			id: true,
 			name: true,
 			username: true,
 			image: { select: { id: true } },
-			notes: { select: { id: true, title: true } },
 		},
-		where: { username: params.username },
 	})
-
-	invariantResponse(owner, 'Owner not found', { status: 404 })
-
-	return json({ owner })
+	invariantResponse(user, 'User not found', { status: 404 })
+	return json({ user })
 }
 
-export default function NotesRoute() {
+export default function AdminRoute() {
 	const data = useLoaderData<typeof loader>()
-	const { owner } = data
+	const { user } = data
+
 	return (
 		<Main>
 			<MainContainer>
-				<PageSidebar
-					owner={owner}
-					title="Notes"
-					headerLink={`/users/${owner.username}`}
-					avatar={true}
-					list={owner.notes}
-					newTitle="New Note"
-					displayNew
-				/>
+				<PageSidebar owner={user} title="Admin" headerLink="/admin" list={[]} />
 				<MainContent>
 					<Outlet />
 				</MainContent>

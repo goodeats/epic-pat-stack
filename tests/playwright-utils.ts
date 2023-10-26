@@ -17,6 +17,7 @@ type GetOrInsertUserOptions = {
 	username?: UserModel['username']
 	password?: string
 	email?: UserModel['email']
+	roles?: string[]
 }
 
 type User = {
@@ -31,6 +32,7 @@ async function getOrInsertUser({
 	username,
 	password,
 	email,
+	roles = ['user'],
 }: GetOrInsertUserOptions = {}): Promise<User> {
 	const select = { id: true, email: true, username: true, name: true }
 	if (id) {
@@ -43,13 +45,27 @@ async function getOrInsertUser({
 		username ??= userData.username
 		password ??= userData.username
 		email ??= userData.email
+
+		// create roles if they don't exist
+		for (const role of roles) {
+			const existingRole = await prisma.role.findUnique({
+				where: { name: role },
+			})
+
+			if (!existingRole) {
+				await prisma.role.create({
+					data: { name: role },
+				})
+			}
+		}
+
 		return await prisma.user.create({
 			select,
 			data: {
 				...userData,
 				email,
 				username,
-				roles: { connect: { name: 'user' } },
+				roles: { connect: roles.map(role => ({ name: role })) },
 				password: { create: { hash: await getPasswordHash(password) } },
 			},
 		})

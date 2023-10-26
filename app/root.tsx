@@ -24,10 +24,10 @@ import { HoneypotProvider } from 'remix-utils/honeypot/react'
 import { z } from 'zod'
 import { Confetti } from './components/confetti.tsx'
 import { GeneralErrorBoundary } from './components/error-boundary.tsx'
+import { href as iconsHref } from './components/index.ts'
 import { EpicProgress } from './components/progress-bar.tsx'
 import { PageFooter, PageHeader } from './components/templates/index.ts'
 import { EpicToaster } from './components/toaster.tsx'
-import { href as iconsHref } from './components/ui/icon.tsx'
 import fontStyleSheetUrl from './styles/font.css'
 import tailwindStyleSheetUrl from './styles/tailwind.css'
 import { authenticator, getUserId } from './utils/auth.server.ts'
@@ -199,7 +199,10 @@ function Document({
 				<ClientHintCheck nonce={nonce} />
 				<Meta />
 				<meta charSet="utf-8" />
-				<meta name="viewport" content="width=device-width,initial-scale=1" />
+				<meta
+					name="viewport"
+					content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+				/>
 				<Links />
 			</head>
 			<body className="bg-background text-foreground">
@@ -228,7 +231,7 @@ function App() {
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
 			<div className="flex h-screen flex-col justify-between">
-				<PageHeader />
+				<PageHeader userId={data.user?.id} />
 
 				<div className="flex-1">
 					<Outlet />
