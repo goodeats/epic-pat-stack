@@ -1,7 +1,8 @@
-import { Button, type ButtonProps } from '@pppaaattt/goodui'
 import * as React from 'react'
 import { useSpinDelay } from 'spin-delay'
 import {
+	Button,
+	type ButtonProps,
 	Icon,
 	Tooltip,
 	TooltipContent,

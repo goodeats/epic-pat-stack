@@ -1,6 +1,5 @@
 import { conform, useForm } from '@conform-to/react'
 import { getFieldsetConstraint, parse } from '@conform-to/zod'
-import { Field } from '@pppaaattt/goodui'
 import {
 	json,
 	redirect,
@@ -15,6 +14,7 @@ import { z } from 'zod'
 import {
 	CheckboxField,
 	ErrorList,
+	Field,
 	StatusButton,
 	GeneralErrorBoundary,
 	Spacer,
