@@ -1,10 +1,18 @@
 import { json, type DataFunctionArgs } from '@remix-run/node'
 import { Form, Link, useLoaderData, type MetaFunction } from '@remix-run/react'
-import { GeneralErrorBoundary } from '#app/components/error-boundary.tsx'
-import { Button, Icon, Spacer } from '#app/components/index.ts'
+import {
+	GeneralErrorBoundary,
+	Button,
+	Icon,
+	Spacer,
+} from '#app/components/index.ts'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
-import { getUserImgSrc, invariantResponse } from '#app/utils/misc.tsx'
+import {
+	formatDate,
+	getUserImgSrc,
+	invariantResponse,
+} from '#app/utils/misc.tsx'
 import { userHasRole } from '#app/utils/permissions.ts'
 import { useOptionalUser } from '#app/utils/user.ts'
 
@@ -31,7 +39,7 @@ export async function loader({ request, params }: DataFunctionArgs) {
 	return json({
 		user,
 		isAdmin,
-		userJoinedDisplay: user.createdAt.toLocaleDateString(),
+		userJoinedDisplay: formatDate(new Date(user.createdAt)),
 	})
 }
 
