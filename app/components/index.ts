@@ -1,5 +1,6 @@
 export {
 	Button,
+	buttonVariants,
 	type ButtonProps,
 	Checkbox,
 	type CheckboxProps,
