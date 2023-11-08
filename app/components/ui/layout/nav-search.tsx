@@ -3,8 +3,8 @@ import { useMatches } from '@remix-run/react'
 import { cva, type VariantProps } from 'class-variance-authority'
 import * as React from 'react'
 
+import { SearchBar } from '#app/components/index.ts'
 import { cn } from '#app/utils/misc.tsx'
-import { SearchBar } from '../search-bar.tsx'
 
 const navSearchVariants = cva('nav', {
 	variants: {
