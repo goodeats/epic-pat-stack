@@ -1,4 +1,3 @@
-// export { Button, type ButtonProps } from '@pppaaattt/goodui'
 // export * from './button.tsx'
 // export * from './checkbox.tsx'
 // export * from './dropdown-menu.tsx'
