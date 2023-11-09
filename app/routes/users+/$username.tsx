@@ -13,7 +13,7 @@ import {
 	getUserImgSrc,
 	invariantResponse,
 } from '#app/utils/misc.tsx'
-import { userHasRole } from '#app/utils/permissions.ts'
+import { userIsAdmin } from '#app/utils/permissions.ts'
 import { useOptionalUser } from '#app/utils/user.ts'
 
 export async function loader({ request, params }: DataFunctionArgs) {
@@ -34,7 +34,7 @@ export async function loader({ request, params }: DataFunctionArgs) {
 
 	invariantResponse(user, 'User not found', { status: 404 })
 
-	const isAdmin = userHasRole(user, 'admin')
+	const isAdmin = userIsAdmin(user)
 
 	return json({
 		user,
