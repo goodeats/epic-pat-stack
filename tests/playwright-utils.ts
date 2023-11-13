@@ -25,6 +25,8 @@ type User = {
 	email: string
 	username: string
 	name: string | null
+	createdAt: Date | string
+	roles: { name: string }[]
 }
 
 async function getOrInsertUser({
@@ -34,7 +36,14 @@ async function getOrInsertUser({
 	email,
 	roles = ['user'],
 }: GetOrInsertUserOptions = {}): Promise<User> {
-	const select = { id: true, email: true, username: true, name: true }
+	const select = {
+		id: true,
+		email: true,
+		username: true,
+		name: true,
+		createdAt: true,
+		roles: { select: { name: true } },
+	}
 	if (id) {
 		return await prisma.user.findUniqueOrThrow({
 			select,
