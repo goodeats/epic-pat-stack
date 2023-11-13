@@ -99,3 +99,7 @@ export function userHasRole(
 	if (!user) return false
 	return user.roles.some(r => r.name === role)
 }
+
+export function userIsAdmin(user: Pick<ReturnType<typeof useUser>, 'roles'>) {
+	return userHasRole(user, 'admin')
+}
